@@ -1,0 +1,44 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Student {
+  id: String!
+  firstName: String!
+  lastName: String!
+  address: String
+}
+
+type Faculty {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Query {
+  getAllStudent: [Student!]!
+  faculty(id: Int!): Faculty!
+}
+
+type Mutation {
+  createStudent(studentInput: StudentCreateDTO!): Student!
+  createFaculty(createFacultyInput: CreateFacultyInput!): Faculty!
+  updateFaculty(updateFacultyInput: UpdateFacultyInput!): Faculty!
+  removeFaculty(id: Int!): Faculty!
+}
+
+input StudentCreateDTO {
+  firstName: String!
+  lastName: String!
+  address: String
+}
+
+input CreateFacultyInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateFacultyInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
