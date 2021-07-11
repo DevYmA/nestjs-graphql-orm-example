@@ -7,15 +7,20 @@ type Student {
   firstName: String!
   lastName: String!
   address: String
+  facalty: Faculty!
+  facaltyId: String!
 }
 
 type Faculty {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: String!
+  name: String!
+  location: String
+  students: [Student!]
 }
 
 type Query {
   getAllStudent: [Student!]!
+  getAllFaculty: [Faculty!]!
   faculty(id: Int!): Faculty!
 }
 
@@ -30,15 +35,16 @@ input StudentCreateDTO {
   firstName: String!
   lastName: String!
   address: String
+  facaltyId: String!
 }
 
 input CreateFacultyInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  location: String
 }
 
 input UpdateFacultyInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String
+  location: String
   id: Int!
 }

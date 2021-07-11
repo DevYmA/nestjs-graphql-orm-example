@@ -9,5 +9,6 @@ export class StudentCreateDTO{
     lastName:string
     @Field({nullable:true})
     address:string
-
+    @Field()
+    facaltyId:string
 }

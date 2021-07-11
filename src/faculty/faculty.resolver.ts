@@ -13,7 +13,7 @@ export class FacultyResolver {
     return this.facultyService.create(createFacultyInput);
   }
 
-  @Query(() => [Faculty], { name: 'faculty' })
+  @Query(() => [Faculty], { name: 'getAllFaculty' })
   findAll() {
     return this.facultyService.findAll();
   }

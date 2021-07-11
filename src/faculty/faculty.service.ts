@@ -1,19 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateFacultyInput } from './dto/create-faculty.input';
 import { UpdateFacultyInput } from './dto/update-faculty.input';
+import { Faculty } from './entities/faculty.entity';
 
 @Injectable()
 export class FacultyService {
-  create(createFacultyInput: CreateFacultyInput) {
-    return 'This action adds a new faculty';
+
+  constructor(@InjectRepository(Faculty) private facultyRepository: Repository<Faculty>) { }
+
+  create(faculty: CreateFacultyInput): Promise<Faculty> {
+    let tem = this.facultyRepository.create(faculty);
+    return this.facultyRepository.save(tem);
   }
 
-  findAll() {
-    return `This action returns all faculty`;
+  async findAll(): Promise<Faculty[]> {
+    return this.facultyRepository.find(
+      {
+        relations: ["students"]
+      }
+    );
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} faculty`;
+  async findOne(id: string | number) :Promise<Faculty> {
+    return this.facultyRepository.findOne(id);
   }
 
   update(id: number, updateFacultyInput: UpdateFacultyInput) {
