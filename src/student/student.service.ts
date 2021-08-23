@@ -20,7 +20,6 @@ export class StudentService {
 
     async create(student: StudentCreateDTO): Promise<Student> {
         let studentTmp = this.studentRepository.create(student);
-        console.log(studentTmp);
         return this.studentRepository.save(studentTmp);
     }
 

@@ -24,9 +24,9 @@ export class Student {
 
     @ManyToOne(() => Faculty, faculty => faculty.students)
     @Field(() => Faculty)
-    facalty: Faculty
+    facalty?: Faculty
 
     @Column()
     @Field()
-    facaltyId: string
+    facaltyId?: string
 }

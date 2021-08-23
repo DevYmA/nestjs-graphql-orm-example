@@ -1,4 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { Faculty } from "src/faculty/entities/faculty.entity";
+import { StudentCreateDTO } from "./dto/create-student.input";
 import { Student } from "./entity/student.entity";
 import { StudentResolver } from "./student.resolver";
 import { StudentService } from "./student.service";
@@ -9,10 +11,30 @@ describe('Student Resolver', () => {
 
     let studentMockService: StudentService;
 
-    let createDto = new Student();
+    let studentMockData: Student[] = [
+        {
+            firstName: "Rick",
+            lastName: "Gremmy",
+            address: "LA",
+            id: "test-id-1"
+        },
+        {
+            firstName: "Daral",
+            lastName: "Merch",
+            address: "AU",
+            id: "test-id-2"
+        }
+    ];
+
+    let createDto = new StudentCreateDTO();
     createDto.firstName = "Rick";
     createDto.lastName = "Gremy";
     createDto.address = "LA";
+
+    let faculty = new Faculty();
+    faculty.id = "test-fac-id";
+    faculty.location = "AU";
+    faculty.name = "New Vells";
 
     const studentService = {
         create: jest.fn((student) => {
@@ -20,7 +42,9 @@ describe('Student Resolver', () => {
                 id: "test-id",
                 ...createDto
             }
-        })
+        }),
+        findAll: jest.fn().mockImplementation(() => Promise.resolve(studentMockData)),
+        getFaculty: jest.fn().mockImplementation((student) => Promise.resolve(faculty))
     };
 
     beforeEach(async () => {
@@ -46,11 +70,44 @@ describe('Student Resolver', () => {
         expect(resolver.create).toBeDefined();
     });
 
-    it('should return created object in the databas', () => {
+    it('should return created object in the database', () => {
         expect(resolver.create(createDto)).toEqual({
             id: "test-id",
             ...createDto
         });
-        expect(studentService.create).toBeCalled();
+        expect(studentMockService.create).toBeCalled();
+    });
+
+    it('should have findAll function', () => {
+        expect(resolver.findAll).toBeDefined();
+    });
+
+    it('should have return multiple students', async () => {
+        expect(await resolver.findAll()).toEqual([
+            {
+                firstName: "Rick",
+                lastName: "Gremmy",
+                address: "LA",
+                id: "test-id-1"
+            },
+            {
+                firstName: "Daral",
+                lastName: "Merch",
+                address: "AU",
+                id: "test-id-2"
+            }
+        ]);
+        expect(studentMockService.findAll).toBeCalled()
+    });
+
+    it('should have faculty resolve function', () => {
+        expect(resolver.facalty).toBeDefined();
+    });
+
+    it('should have return faculty by student', async () => {
+        expect(await resolver.facalty(studentMockData[0])).toEqual(
+            faculty
+        );
+        expect(studentMockService.getFaculty).toBeCalled();
     });
 });
